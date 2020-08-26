@@ -1,0 +1,64 @@
+
+body {
+  font: 100% $font-stack;
+  background-color: $primary-color;
+
+}
+
+table {
+  &.highlight > tbody > tr {
+    border: 1px solid $table-border-color;
+    a {
+      color: $primary-color-dark;
+      padding: 0 1px;
+      font-weight: bold;
+    }
+    > th {
+      background-color: $primary-color;
+      color: $primary-color-dark;
+      font-weight: bold;
+
+    }
+
+  }
+}
+  .col .connected {
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+
+  .content {
+    background-color: $primary-color-light;
+    margin: 0.5rem 1%;
+
+    width: 98%;
+  }
+
+  .col .content {
+    padding: 1%;
+  }
+
+  .row {
+    margin-bottom: 0px;
+    width: 100%;
+  }
+
+
+  .secondary-nav {
+    background-color: $secondary-nav-color;
+    margin: 0px;
+  }
+
+  .sidemenu {
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+  }
+
+  .ml-1 {
+    margin-left: 1rem;
+  }
+
+  .datagrid {
+    border: $primary-color-dark solid;
+  }

@@ -1,0 +1,167 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+<div class="col">
+    <!-- Nav Start-->
+    <div class="row">
+        <!-- SideNav Start-->
+        <nav class="col s1 sidemenu connected center-align">
+            <nav class="row menu-tabs">
+                <i class="material-icons">reorder</i>
+            </nav>
+            <nav class="row menu-tabs">
+                <i class="material-icons">dashboard</i>
+            </nav>
+            <nav class="row menu-tabs">
+                <i class="material-icons">people</i>
+            </nav>
+            <nav class="row menu-tabs">
+                <i class="material-icons">new_releases</i>
+            </nav>
+            <nav class="row menu-tabs-selected">
+                <i class="material-icons">local_offer</i>
+            </nav>
+        </nav>
+        <!-- SideNav End-->
+
+        <div class="col s11 push-s1 connected">
+            <!-- TopNav Start-->
+            <nav class="row">
+                <div class="col s12 ml-1">
+                    <div class="brand-logo left ml-1">SRP</div>
+                    <div class="right mr-1"><b>Odhlásit</b>({$username})</div>
+                </div>
+
+            </nav>
+            <!-- TopNav End-->
+            <!-- SecNav Start-->
+            <div class="row secondary-nav">
+                <div class="col s12">
+                    <div class="left sub-header center-align ml-1">
+                        <p class="valign-wrapper"><i class="material-icons mr-1">arrow_back</i>Značky</p>
+                    </div>
+                </div>
+            </div>
+            <!-- SecNav End-->
+            <!-- Content Start-->
+            <div class="row">
+                <div class="col content">
+
+
+                    <!-- Create Modal Trigger -->
+                    <button data-target="modalNewRow" class="btn modal-trigger m-1"><span class="valign-wrapper"><i class="material-icons mr-1">add</i>PŘIDAT ZNAČKU</span></button>
+
+                    <!-- Create Modal Structure -->
+                    <div id="modalNewRow" class="modal modalNewRow">
+                        <div class="modal-content">
+                            {form newBrandForm}
+                                <ul class="errors" n:if="$form->hasErrors()">
+                                    <li n:foreach="$form->errors as $error">{$error}</li>
+                                </ul>
+                                <div class="row">
+                                    <div class="input-field col s12 center-align">
+                                        <input placeholder="New Brand" n:name=brandName type="text" class="validate">
+                                        <label n:name=brandName>Brand Name:</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer center-align">
+                                    <input n:name=submit class="btn btn-default ">
+                                </div>
+                            {/form}
+                        </div>
+                    </div>
+                    <!-- Create Modal End-->
+
+                    <!-- DataGrid Start-->
+                    <table class="highlight right-align">
+                        <tr>
+                            <th scope="col ml-1" colspan="1">
+                                <b class="ml-1">Název</b>
+                                <a n:href="default, $page, $tableSize, 'ASC'"
+                                        class="btn-flat"><i class="material-icons">arrow_upwards</i></a>
+                                <a n:href="default, $page, $tableSize, 'DESC'"
+                                        class="btn-flat"><i class="material-icons">arrow_downwards</i></a>
+                            </th>
+
+                            <th scope="col" colspan="2">Akce</th>
+                        </tr>
+                        {foreach $brand as $row}
+                            <tr>
+                                <td>{$row->brandName}</td>
+                                <td width="50">
+                                    <a n:href="delete, $row->id">Smazat</a>
+                                </td>
+                                <td width="50">
+                                    <a class="modal-trigger" data-id="{$row->id}" href="#modalNewRow{$row->id}">Editovat</a>
+                                    <!-- Update Modal Structure -->
+                                    <div id="modalNewRow{$row->id}" class="modal modalNewRow">
+                                        <div class="modal-content">
+                                            $row->brandName
+                                            {control updateBrandForm ['KAREL'] }
+
+                                        </div>
+                                    </div>
+                                    <!-- Update Modal End-->
+                                </td>
+
+
+                            </tr>
+                        {/foreach}
+
+                    </table>
+                    <!-- DataGrid End-->
+                    <!-- Pagination Start-->
+                    <div class=" row">
+                        <div class="pagination right col">
+                            {if $lastPage>7}
+
+                                {if $page>3}
+                                    <a n:href="default, $page-1, $tableSize, $order"
+                                            class="btn-flat"><i class="material-icons blue-text">chevron_left</i></a>
+                                    <a n:href="default, 1, $tableSize, $order"
+                                            class="btn-flat {if $page==1}selected-page{/if}">1</a>
+                                {/if}
+                                {if $page>3}...{/if}
+
+                                {for $i=-2+$paginationOffset;$i<3+$paginationOffset ;$i++}
+                                    <a n:href="default, $page+$i, $tableSize, $order"
+                                            class="btn-flat {if $page+$i==$page}selected-page{/if}">{$page+$i}</a>
+                                {/for}
+
+                                {if $page<($lastPage-3)}...
+                                    <a n:href="default, $lastPage, $tableSize, $order"
+                                            class="btn-flat {if $page==$lastPage}selected-page{/if}">{$lastPage}</a>
+                                    <a n:href="default, $page+1, $tableSize, $order"
+                                            class="btn-flat"><i class="material-icons blue-text">chevron_right</i></a>
+                                {/if}
+                            {else}
+                                {for $i=1;$i<$lastPage;$i++}
+                                    <a n:href="default, $i, $tableSize, $order"
+                                            class="btn-flat {if $i==$page}selected-page{/if}">{$i}</a>
+                                {/for}
+                            {/if}
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" right col">
+                            <a n:href="default, $page, 10" class="btn-flat {if $tableSize==10}disabled{/if}">10</a>
+                            <a n:href="default, $page, 20" class="btn-flat {if $tableSize==20}disabled{/if}">20</a>
+                            <a n:href="default, $page, 30" class="btn-flat {if $tableSize==30}disabled{/if}">30</a>
+                        </div>
+                    </div>
+                    <!-- Pagination End -->
+                </div>
+            </div>
+            <!-- Content End-->
+        </div>
+    </div>
+</div>
+{/block}
+{block bonusScripts}
+    <script>
+        $(document).ready(function() {
+            $('.modalNewRow').modal();
+        });
+    </script>
+{/block}
