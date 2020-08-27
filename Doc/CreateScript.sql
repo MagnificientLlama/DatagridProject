@@ -29,8 +29,8 @@ USE `sportissimo`;
 -- Struktura tabulky `brand`
 --
 
-DROP TABLE IF EXISTS `sportissimo.brand`;
-CREATE TABLE IF NOT EXISTS `sportissimo.brand`
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE IF NOT EXISTS `brand`
 (
   `id`        int(10) UNSIGNED                    NOT NULL AUTO_INCREMENT,
   `brandName` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
