@@ -86,7 +86,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
      * Utilised for deletion of brand - Could be made in form instead.
      * @param int $id - Id of brand to be deleted
      */
-    public function renderDelete(int $id): void
+    public function handleDelete(int $id): void
     {
 
             $this->tableManager->deleteRow($id);
@@ -124,15 +124,14 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
      * Creates a new form for updating the name of brand - In bigger application would be moved to FormFactory
      * @return Form - prepared form for updating the name of brand
      */
-    public function createComponentUpdateBrandForm($row){
+    public function createComponentUpdateBrandForm(){
 
         $form = new Form();
         $form->addText('brandName','Brand Name:')
-            ->setDefaultValue($row->brandName . 'kek')
             ->setRequired();
-        //$form->addHidden($row->id);
+        $form->addHidden('id',0);
         $form->addSubmit('submit')
-            ->onClick[] = [$this, 'updateNewBrand'];
+            ->onClick[] = [$this, 'updateBrand'];
         $form->addProtection();
         return $form;
     }
@@ -141,7 +140,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
      * onClick handler of updateBrand form - In bigger application would be moved to FormFactory
      * @param $form - Filled in form
      */
-    public function createUpdateBrand($form){
+    public function UpdateBrand($form){
         $values=$form->getForm()->getValues();
         if(! $this->tableManager->updateRow($values)){
             $form->getForm()->addError('Duplicate Entry!');

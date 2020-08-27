@@ -89,25 +89,36 @@
                             <tr>
                                 <td>{$row->brandName}</td>
                                 <td width="50">
-                                    <a n:href="delete, $row->id">Smazat</a>
+                                    <a n:href="delete!, $row->id">Smazat</a>
                                 </td>
                                 <td width="50">
-                                    <a class="modal-trigger" data-id="{$row->id}" href="#modalNewRow{$row->id}">Editovat</a>
-                                    <!-- Update Modal Structure -->
-                                    <div id="modalNewRow{$row->id}" class="modal modalNewRow">
-                                        <div class="modal-content">
-                                            $row->brandName
-                                            {control updateBrandForm ['KAREL'] }
-
-                                        </div>
-                                    </div>
-                                    <!-- Update Modal End-->
+                                    <a class="modal-trigger update-trigger" data-id="{$row->id}" data-brandName = "{$row->brandName}" href="#modalUpdateRow">Editovat</a>
                                 </td>
 
 
                             </tr>
                         {/foreach}
+                        <!-- Update Modal Structure -->
+                        <div id="modalUpdateRow" class="modal modalNewRow">
+                            <div class="modal-content">
+                                {form updateBrandForm }
+                                    <ul class="errors" n:if="$form->hasErrors()">
+                                        <li n:foreach="$form->errors as $error">{$error}</li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="input-field col s12 center-align">
+                                            <input id="brandUpdate"  n:name=brandName type="text" class="validate">
+                                            <label n:name=brandName>Brand Name:</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer center-align">
+                                        <input n:name=submit class="btn btn-default ">
+                                    </div>
+                                {/form}
 
+                            </div>
+                        </div>
+                        <!-- Update Modal End-->
                     </table>
                     <!-- DataGrid End-->
                     <!-- Pagination Start-->
@@ -163,5 +174,15 @@
         $(document).ready(function() {
             $('.modalNewRow').modal();
         });
+
+        $('.update-trigger').click(function(){
+           let id = $(this).data("id");
+           let name = $(this).data("brandname");
+           $('#brandUpdate').val(name);
+           $('input[name="id"]').val(id);
+
+            M.updateTextFields();
+        });
+
     </script>
 {/block}
